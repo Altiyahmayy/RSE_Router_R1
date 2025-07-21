@@ -4,15 +4,24 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleLogin = () => {
-    // Add your login logic here
-    console.log('Logging in with:', email, password);
+    if (email && password ) {
+      setSubmitted(true);
+    } else {
+      alert('Please fill out all fields.');
+    }
+  };
+  const handleClear = () => {
+    setEmail('');
+     setPassword('');
+    setSubmitted(false);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
+      <Text style={styles.title}>Log In</Text>
 
       <TextInput
         placeholder="Email or phone number"
@@ -33,12 +42,22 @@ const LoginScreen: React.FC = () => {
       <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
       </Pressable>
-
       <Text style={styles.or}>OR</Text>
 
       <Pressable style={styles.fb} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login with Facebook</Text>
       </Pressable>
+       <Pressable style={[styles.button, styles.clearButton]} onPress={handleClear}>
+            <Text style={styles.buttonText}>Clear</Text>
+          </Pressable>
+       {submitted && (
+          <View style={styles.output}>
+            <Text style={styles.outputTitle}>Submitted Information:</Text>
+            <Text>Email: {email}</Text>
+            <Text>Password: {password}</Text>
+          
+          </View>
+        )}
       
 
     </View>
@@ -63,7 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     fontWeight: 'bold',
     alignSelf:'flex-start',
-    marginTop:-400,
+    marginTop:-300,
     color:'white',
     
   },
@@ -86,6 +105,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+   clearButton: {
+    backgroundColor: '#ff5c5c', // Red button for clear
+    marginTop: 15,
+  },
   or:{
     textAlign:'center',
     marginTop: 50,
@@ -98,5 +121,16 @@ const styles = StyleSheet.create({
     color:'white',
     paddingVertical: 14,
     borderRadius: 20,
-  }
+  },
+
+   output: {
+    marginTop: 20,
+    backgroundColor: '#f1f1f1cf',
+    padding: 15,
+    borderRadius: 8,
+  },
+  outputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
 });

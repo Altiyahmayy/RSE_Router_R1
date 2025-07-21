@@ -6,55 +6,82 @@ const SignupScreen: React.FC = () => {
   const [phonenumber, setPhoneNumber] = useState('');
   const [emailadd, setEmailAdd] = useState('');
   const[password, setPassword] = useState('');
+ const [submitted, setSubmitted] = useState(false);
 
   const handleSignup = () => {
-    if (password !== password) {
-      alert('Passwords do not match!');
-      return;
-    }
-    // Add your signup logic here
-    console.log('Signing up with:', emailadd, password);
+     if (fullname && emailadd  &&  phonenumber  && password ) {
+       setSubmitted(true);
+     } else {
+       alert('Please fill out all fields.');
+     }
+   };
+  const handleClear = () => {
+    setFullName('');
+     setEmailAdd('');
+    setPhoneNumber('');
+     setPassword('');
+    setSubmitted(false);
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create New Account</Text>
-
-      <TextInput
-        placeholder="Full Name"
-        value={fullname}
-        onChangeText={setFullName}
-        style={styles.input}
-        keyboardType="email-address"
-      />
-
-      <TextInput
-        placeholder="Phone Number"
-        value={phonenumber}
-        onChangeText={setPhoneNumber}
-        style={styles.input}
-        secureTextEntry
-      />
-
-      <TextInput
-        placeholder="E-mail Address"
-        value={emailadd}
-        onChangeText={setEmailAdd}
-        style={styles.input}
-        secureTextEntry
-      />
-
+   return (
+     <View style={styles.container}>
+       <Text style={styles.title}>Sign Up</Text>
+ 
        <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        secureTextEntry
-      />
-      <Pressable style={styles.button} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
-    </View>
+         placeholder="Full Name"
+         value={fullname}
+         onChangeText={setFullName}
+         style={styles.input}
+         keyboardType="email-address"
+       />
+        <TextInput
+         placeholder="Email Address"
+         value={emailadd}
+         onChangeText={setEmailAdd}
+         style={styles.input}
+       
+       />
+
+        <TextInput
+         placeholder="Phone Number"
+         value={phonenumber}
+         onChangeText={setPhoneNumber}
+         style={styles.input}
+   
+       />
+ 
+       <TextInput
+         placeholder="Password"
+         value={password}
+         onChangeText={setPassword}
+         style={styles.input}
+         secureTextEntry
+       />
+ 
+       <Pressable style={styles.button} onPress={handleSignup}>
+         <Text style={styles.buttonText}>Sign up</Text>
+       </Pressable>
+         <Pressable style={[styles.button, styles.clearButton]} onPress={handleClear}>
+            <Text style={styles.buttonText}>Clear</Text>
+          </Pressable>
+   
+ 
+     
+ 
+        {submitted && (
+           <View style={styles.output}>
+             <Text style={styles.outputTitle}>Submitted Information:</Text>
+             <Text>Full Name: {fullname}</Text>
+               <Text>Email Address: {emailadd}</Text>
+              <Text>Phone Number: {phonenumber}</Text>
+             <Text>Password: {password}</Text>
+           
+           </View>
+         )}
+       
+ 
+     </View>
+ 
   );
 };
 
@@ -74,7 +101,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     alignSelf:'flex-start',
-    marginTop:-400,
+    marginTop:-300,
+    justifyContent: 'center',
     
   },
   input: {
@@ -92,9 +120,24 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
   },
+   clearButton: {
+    marginTop: 20,
+    backgroundColor: '#ff5c5c', 
+  },
   buttonText: {
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
+  },
+
+  output: {
+    backgroundColor: '#baa2a2ff',
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  outputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
 });
